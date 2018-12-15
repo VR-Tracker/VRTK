@@ -1,19 +1,17 @@
 ﻿// VRTracker Boundaries|SDK_VRTracker|005
 namespace VRTK
 {
-#if VRTK_DEFINE_SDK_VRTRACKER
     using UnityEngine;
-#endif
 
     /// <summary>
     /// The Oculus Boundaries SDK script provides a bridge to the Oculus SDK play area.
     /// </summary>
 	[SDK_Description(typeof(SDK_VRTrackerSystem))]
-	[SDK_Description(typeof(SDK_VRTrackerSystem), 1)]
-	[SDK_Description(typeof(SDK_VRTrackerSystem), 2)]
-	[SDK_Description(typeof(SDK_VRTrackerSystem), 3)]
-	[SDK_Description(typeof(SDK_VRTrackerSystem), 4)]
-	[SDK_Description(typeof(SDK_VRTrackerSystem), 5)]
+    [SDK_Description(typeof(SDK_VRTrackerSystem), 1)]
+    [SDK_Description(typeof(SDK_VRTrackerSystem), 2)]
+    [SDK_Description(typeof(SDK_VRTrackerSystem), 3)]
+    [SDK_Description(typeof(SDK_VRTrackerSystem), 4)]
+    [SDK_Description(typeof(SDK_VRTrackerSystem), 5)]
     public class SDK_VRTrackerBoundaries
 #if VRTK_DEFINE_SDK_VRTRACKER
         : SDK_BaseBoundaries
@@ -39,12 +37,11 @@ namespace VRTK
             cachedPlayArea = GetSDKManagerPlayArea();
             if (cachedPlayArea == null)
             {
-				var vrtrackerPlayArea = VRTK_SharedMethods.FindEvenInactiveComponent<VRTrackerVRTKPlayArea>();
-				if (vrtrackerPlayArea)
+                GameObject foundCameraRig = VRTK_SharedMethods.FindEvenInactiveGameObject<SDK_VRTrackerCameraRig>(null, true);
+                if (foundCameraRig != null)
                 {
-					cachedPlayArea = vrtrackerPlayArea.transform;
+                    cachedPlayArea = foundCameraRig.transform;
                 }
-
             }
 
             return cachedPlayArea;
@@ -56,23 +53,6 @@ namespace VRTK
         /// <returns>A Vector3 array of the points in the scene that represent the play area boundaries.</returns>
         public override Vector3[] GetPlayAreaVertices()
         {
-			var vrtrackerPlayArea = VRTK_SharedMethods.FindEvenInactiveComponent<VRTrackerVRTKPlayArea>();
-			if (vrtrackerPlayArea)
-			{
-				var vertices = new Vector3[8];
-
-				vertices[0] = new Vector3(vrtrackerPlayArea.right_x - vrtrackerPlayArea.thickness, 0f, vrtrackerPlayArea.front_z - vrtrackerPlayArea.thickness);
-				vertices[1] = new Vector3(vrtrackerPlayArea.left_x + vrtrackerPlayArea.thickness, 0f, vrtrackerPlayArea.front_z - vrtrackerPlayArea.thickness);
-				vertices[2] = new Vector3(vrtrackerPlayArea.left_x + vrtrackerPlayArea.thickness, 0f, vrtrackerPlayArea.back_z + vrtrackerPlayArea.thickness);
-				vertices[3] = new Vector3(vrtrackerPlayArea.right_x - vrtrackerPlayArea.thickness, 0f, vrtrackerPlayArea.back_z + vrtrackerPlayArea.thickness);
-
-				vertices[4] = new Vector3(vrtrackerPlayArea.right_x, 0f, vrtrackerPlayArea.front_z);
-				vertices[5] = new Vector3(vrtrackerPlayArea.left_x, 0f, vrtrackerPlayArea.front_z);
-				vertices[6] = new Vector3(vrtrackerPlayArea.left_x, 0f, vrtrackerPlayArea.back_z);
-				vertices[7] = new Vector3(vrtrackerPlayArea.right_x, 0f, vrtrackerPlayArea.back_z);
-
-				return vertices;
-            }
             return null;
         }
 
@@ -110,8 +90,6 @@ namespace VRTK
         public override void SetDrawAtRuntime(bool value)
         {
         }
-
-
-#endif
+        #endif
     }
 }

@@ -1,21 +1,19 @@
 ﻿// VRTracker Headset|SDK_VRTracker|003
 namespace VRTK
 {
-#if VRTK_DEFINE_SDK_VRTRACKER
     using UnityEngine;
     using System.Collections.Generic;
-#endif
 
     /// <summary>
     /// The VR Tracker Headset SDK script provides a bridge to the Oculus SDK.
     /// </summary>
 	[SDK_Description(typeof(SDK_VRTrackerSystem))]
-	[SDK_Description(typeof(SDK_VRTrackerSystem), 1)]
-	[SDK_Description(typeof(SDK_VRTrackerSystem), 2)]
-	[SDK_Description(typeof(SDK_VRTrackerSystem), 3)]
-	[SDK_Description(typeof(SDK_VRTrackerSystem), 4)]
-	[SDK_Description(typeof(SDK_VRTrackerSystem), 5)]
-	public class SDK_VRTrackerHeadset
+    [SDK_Description(typeof(SDK_VRTrackerSystem), 1)]
+    [SDK_Description(typeof(SDK_VRTrackerSystem), 2)]
+    [SDK_Description(typeof(SDK_VRTrackerSystem), 3)]
+    [SDK_Description(typeof(SDK_VRTrackerSystem), 4)]
+    [SDK_Description(typeof(SDK_VRTrackerSystem), 5)]
+    public class SDK_VRTrackerHeadset
 #if VRTK_DEFINE_SDK_VRTRACKER
         : SDK_BaseHeadset
 #else
@@ -72,7 +70,7 @@ public override void ProcessUpdate(Dictionary<string, object> options)
             cachedHeadset = GetSDKManagerHeadset();
             if (cachedHeadset == null)
             {
-				cachedHeadset = VRTK_SharedMethods.FindEvenInactiveGameObject<VRTrackerVRTKCameraRig>("VRTrackerCamera").transform;
+                cachedHeadset = VRTK_SharedMethods.FindEvenInactiveGameObject<SDK_VRTrackerCameraRig>("CameraHolder/EyeTagOffset/CameraRotationOffset/Camera").transform;
             }
 
             if (vrtrackerTagHead == null)
@@ -93,12 +91,7 @@ public override void ProcessUpdate(Dictionary<string, object> options)
         /// <returns>A transform of the object holding the headset camera in the scene.</returns>
         public override Transform GetHeadsetCamera()
 		{
-			cachedHeadsetCamera = GetSDKManagerHeadset();
-			if (cachedHeadsetCamera == null)
-			{
-				cachedHeadsetCamera = VRTK_SharedMethods.FindEvenInactiveGameObject<VRTrackerVRTKCameraRig>("VRTrackerCamera/Camera").transform;
-			}
-			return cachedHeadsetCamera;
+            return GetHeadset();
         }
 
         /// <summary>
@@ -164,6 +157,6 @@ public override void ProcessUpdate(Dictionary<string, object> options)
             previousHeadsetRotation = currentHeadsetRotation;
             currentHeadsetRotation = GetHeadset().transform.rotation;
         }
-#endif
+        #endif
     }
 }

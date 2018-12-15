@@ -1,20 +1,18 @@
 ﻿// VRTracker Controller|SDK_VRTracker|004
 namespace VRTK
 {
-#if VRTK_DEFINE_SDK_VRTRACKER
     using UnityEngine;
     using System.Collections.Generic;
-#endif
 
     /// <summary>
     /// The VRTracker Controller SDK script provides a bridge to SDK methods that deal with the input devices.
     /// </summary>
 	[SDK_Description(typeof(SDK_VRTrackerSystem))]
-	[SDK_Description(typeof(SDK_VRTrackerSystem), 1)]
-	[SDK_Description(typeof(SDK_VRTrackerSystem), 2)]
-	[SDK_Description(typeof(SDK_VRTrackerSystem), 3)]
-	[SDK_Description(typeof(SDK_VRTrackerSystem), 4)]
-	[SDK_Description(typeof(SDK_VRTrackerSystem), 5)]
+    [SDK_Description(typeof(SDK_VRTrackerSystem), 1)]
+    [SDK_Description(typeof(SDK_VRTrackerSystem), 2)]
+    [SDK_Description(typeof(SDK_VRTrackerSystem), 3)]
+    [SDK_Description(typeof(SDK_VRTrackerSystem), 4)]
+    [SDK_Description(typeof(SDK_VRTrackerSystem), 5)]
     public class SDK_VRTrackerController
 #if VRTK_DEFINE_SDK_VRTRACKER
         : SDK_BaseController
@@ -22,10 +20,12 @@ namespace VRTK
         : SDK_FallbackController
 #endif
     {
-
+#if VRTK_DEFINE_SDK_VRTRACKER
         protected SDK_VRTrackerBoundaries cachedBoundariesSDK;
         protected VRTK_TrackedController cachedLeftController;
         protected VRTK_TrackedController cachedRightController;
+        protected VRTK_VelocityEstimator cachedLeftVelocityEstimator;
+        protected VRTK_VelocityEstimator cachedRightVelocityEstimator;
 
         protected Quaternion[] previousControllerRotations = new Quaternion[2];
         protected Quaternion[] currentControllerRotations = new Quaternion[2];
@@ -211,7 +211,7 @@ namespace VRTK
             GameObject controller = GetSDKManagerControllerLeftHand(actual);
             if (controller == null && actual)
             {
-				controller = VRTK_SharedMethods.FindEvenInactiveGameObject<VRTrackerVRTKCameraRig>("ControllerLeftAnchor");
+                controller = VRTK_SharedMethods.FindEvenInactiveGameObject<SDK_VRTrackerCameraRig>("LeftHandAnchor");
             }
             return controller;
         }
@@ -226,7 +226,7 @@ namespace VRTK
             GameObject controller = GetSDKManagerControllerRightHand(actual);
             if (controller == null && actual)
             {
-				controller = VRTK_SharedMethods.FindEvenInactiveGameObject<VRTrackerVRTKCameraRig>("ControllerRightAnchor");
+                controller = VRTK_SharedMethods.FindEvenInactiveGameObject<SDK_VRTrackerCameraRig>("RightHandAnchor");
             }
             return controller;
         }
@@ -815,5 +815,6 @@ namespace VRTK
 
             return cachedBoundariesSDK;
         }
+        #endif
     }
 }
