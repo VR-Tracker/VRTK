@@ -12,6 +12,7 @@ namespace VRTK
     [SDK_Description(typeof(SDK_VRTrackerSystem), 3)]
     [SDK_Description(typeof(SDK_VRTrackerSystem), 4)]
     [SDK_Description(typeof(SDK_VRTrackerSystem), 5)]
+    [SDK_Description(typeof(SDK_VRTrackerSystem), 6)]
     public class SDK_VRTrackerBoundaries
 #if VRTK_DEFINE_SDK_VRTRACKER
         : SDK_BaseBoundaries

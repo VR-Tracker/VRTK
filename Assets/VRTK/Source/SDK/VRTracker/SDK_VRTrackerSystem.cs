@@ -10,6 +10,7 @@ namespace VRTK
 	[SDK_Description("VRTracker (Android:Daydream)", null, "Daydream", "Android", 3)]
 	[SDK_Description("VRTracker (Android:Oculus)", null, "Oculus", "Android", 4)]
 	[SDK_Description("VRTracker (Android:OpenVR)", null, "OpenVR", "Android", 5)]
+    [SDK_Description("VRTracker (Standalone)", null, null, "Standalone", 6)]
 	/*
 	[SDK_Description("VRTracker (Standalone:Oculus)", SDK_VRTrackerDefines.ScriptingDefineSymbol, "Oculus", "Standalone")]
 	[SDK_Description("VRTracker (Standalone:OpenVR)", SDK_VRTrackerDefines.ScriptingDefineSymbol, "OpenVR", "Standalone", 1)]
