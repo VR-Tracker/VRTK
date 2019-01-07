@@ -55,11 +55,30 @@ namespace VRTK
             uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
             GameObject controller = GetControllerByIndex(index);
 
+            if (vrtrackerTagLeft == null)
+            {
+                // VR Tracker note : assign Tag to Controller 
+                if (VRTracker.Manager.VRT_Manager.Instance)
+                {
+                    vrtrackerTagLeft = VRTracker.Manager.VRT_Manager.Instance.GetLeftControllerTag();
+                }
+            }
+
+            if (vrtrackerTagRight == null)
+            {
+                // VR Tracker note : assign Tag to Controller 
+                if (VRTracker.Manager.VRT_Manager.Instance)
+                {
+                    vrtrackerTagRight = VRTracker.Manager.VRT_Manager.Instance.GetRightControllerTag();
+                }
+            }
+
             if (IsControllerLeftHand(controller) && vrtrackerTagLeft)
             {
                 cachedLeftController.transform.position = vrtrackerTagLeft.trackedEndpoints[0].transform.position;
                 cachedLeftController.transform.rotation = vrtrackerTagLeft.trackedEndpoints[0].transform.rotation;
             }
+
             else if (IsControllerRightHand(controller) && vrtrackerTagRight)
             {
                 cachedRightController.transform.position = vrtrackerTagRight.trackedEndpoints[0].transform.position;
@@ -69,48 +88,48 @@ namespace VRTK
             ProcessControllerUpdate(controllerReference);
         }
 
-    /// <summary>
-    /// The ProcessFixedUpdate method enables an SDK to run logic for every Unity FixedUpdate
-    /// </summary>
-    /// <param name="controllerReference">The reference for the controller.</param>
-    /// <param name="options">A dictionary of generic options that can be used to within the fixed update.</param>
-    public override void ProcessFixedUpdate(VRTK_ControllerReference controllerReference, Dictionary<string, object> options)
-    {
-
-    }
-
-    /// <summary>
-    /// The GetCurrentControllerType method returns the current used ControllerType based on the SDK and headset being used.
-    /// </summary>
-    /// <returns>The ControllerType based on the SDK and headset being used.</returns>
-    public override ControllerType GetCurrentControllerType(VRTK_ControllerReference controllerReference = null)
-    {
-        return ControllerType.VRTracker_Controller;
-    }
-
-    /// <summary>
-    /// The GetControllerDefaultColliderPath returns the path to the prefab that contains the collider objects for the default controller of this SDK.
-    /// </summary>
-    /// <param name="hand">The controller hand to check for</param>
-    /// <returns>A path to the resource that contains the collider GameObject.</returns>
-    public override string GetControllerDefaultColliderPath(ControllerHand hand)
-    {
-        return "ControllerColliders/VRTracker_" + hand.ToString();
-
-        //TODO: Use this to use Oculus or Steam controllers
-        /*
-        string returnCollider = "ControllerColliders/Fallback";
-        switch (VRTK_DeviceFinder.GetHeadsetType(true))
+        /// <summary>
+        /// The ProcessFixedUpdate method enables an SDK to run logic for every Unity FixedUpdate
+        /// </summary>
+        /// <param name="controllerReference">The reference for the controller.</param>
+        /// <param name="options">A dictionary of generic options that can be used to within the fixed update.</param>
+        public override void ProcessFixedUpdate(VRTK_ControllerReference controllerReference, Dictionary<string, object> options)
         {
-        case VRTK_DeviceFinder.Headsets.OculusRift:
-            returnCollider = (hand == ControllerHand.Left ? "ControllerColliders/SteamVROculusTouch_Left" : "ControllerColliders/SteamVROculusTouch_Right");
-            break;
-        case VRTK_DeviceFinder.Headsets.Vive:
-            returnCollider = "ControllerColliders/HTCVive";
-            break;
+
         }
-        return returnCollider;
-        */
+
+        /// <summary>
+        /// The GetCurrentControllerType method returns the current used ControllerType based on the SDK and headset being used.
+        /// </summary>
+        /// <returns>The ControllerType based on the SDK and headset being used.</returns>
+        public override ControllerType GetCurrentControllerType(VRTK_ControllerReference controllerReference = null)
+        {
+            return ControllerType.VRTracker_Controller;
+        }
+
+        /// <summary>
+        /// The GetControllerDefaultColliderPath returns the path to the prefab that contains the collider objects for the default controller of this SDK.
+        /// </summary>
+        /// <param name="hand">The controller hand to check for</param>
+        /// <returns>A path to the resource that contains the collider GameObject.</returns>
+        public override string GetControllerDefaultColliderPath(ControllerHand hand)
+        {
+            return "ControllerColliders/VRTracker_" + hand.ToString();
+
+            //TODO: Use this to use Oculus or Steam controllers
+            /*
+            string returnCollider = "ControllerColliders/Fallback";
+            switch (VRTK_DeviceFinder.GetHeadsetType(true))
+            {
+            case VRTK_DeviceFinder.Headsets.OculusRift:
+                returnCollider = (hand == ControllerHand.Left ? "ControllerColliders/SteamVROculusTouch_Left" : "ControllerColliders/SteamVROculusTouch_Right");
+                break;
+            case VRTK_DeviceFinder.Headsets.Vive:
+                returnCollider = "ControllerColliders/HTCVive";
+                break;
+            }
+            return returnCollider;
+            */
         }
 
         /// <summary>
@@ -125,21 +144,21 @@ namespace VRTK
             if (false) //TODO: Create a controller model with elements
             {
                 string suffix = (fullPath ? "" : "");
-				string parent = "Controller" + (hand == ControllerHand.Left ? "Left" : "Right") + "Anchor";
-				string path = parent + "/Model";
+                string parent = "Controller" + (hand == ControllerHand.Left ? "Left" : "Right") + "Anchor";
+                string path = parent + "/Model";
 
                 switch (element)
                 {
                     case ControllerElements.AttachPoint:
                         return null;
                     case ControllerElements.Trigger:
-						return path + "/ButtonMain";
+                        return path + "/ButtonMain";
                     case ControllerElements.Touchpad:
-						return path + "/VRTrackerControllerModelTrackpad";
+                        return path + "/VRTrackerControllerModelTrackpad";
                     case ControllerElements.ButtonOne:
-						return path + "/ButtonSecond";
+                        return path + "/ButtonSecond";
                     case ControllerElements.Body:
-						return path;
+                        return path;
                 }
             }
             return null;
@@ -197,7 +216,7 @@ namespace VRTK
         /// <param name="parent">The GameObject that the origin will become parent of. If it is a controller then it will also be used to determine the hand if required.</param>
         /// <returns>A generated Transform that contains the custom pointer origin.</returns>
 		[System.Obsolete("GenerateControllerPointerOrigin has been deprecated and will be removed in a future version of VRTK.")]
-		public override Transform GenerateControllerPointerOrigin(GameObject parent)
+        public override Transform GenerateControllerPointerOrigin(GameObject parent)
         {
             return null;
         }
@@ -275,15 +294,15 @@ namespace VRTK
         }
 
 
-		/// <summary>
-		/// The WaitForControllerModel method determines whether the controller model for the given hand requires waiting to load in on scene start.
-		/// </summary>
-		/// <param name="hand">The hand to determine if the controller model will be ready for.</param>
-		/// <returns>Returns true if the controller model requires loading in at runtime and therefore needs waiting for. Returns false if the controller model will be available at start.</returns>
-		public override bool WaitForControllerModel(ControllerHand hand)
-		{
-			return false;
-		}
+        /// <summary>
+        /// The WaitForControllerModel method determines whether the controller model for the given hand requires waiting to load in on scene start.
+        /// </summary>
+        /// <param name="hand">The hand to determine if the controller model will be ready for.</param>
+        /// <returns>Returns true if the controller model requires loading in at runtime and therefore needs waiting for. Returns false if the controller model will be available at start.</returns>
+        public override bool WaitForControllerModel(ControllerHand hand)
+        {
+            return false;
+        }
 
         /// <summary>
         /// The GetControllerModel method returns the model alias for the given GameObject.
@@ -303,27 +322,27 @@ namespace VRTK
         public override GameObject GetControllerModel(ControllerHand hand)
         {
 
-			GameObject model = GetSDKManagerControllerModelForHand(hand);
-			if (model == null)
-			{
-				GameObject controller = null;
-				switch (hand)
-				{
-				case ControllerHand.Left:
-					controller = GetControllerLeftHand(true);
-					break;
-				case ControllerHand.Right:
-					controller = GetControllerRightHand(true);
-					break;
-				}
+            GameObject model = GetSDKManagerControllerModelForHand(hand);
+            if (model == null)
+            {
+                GameObject controller = null;
+                switch (hand)
+                {
+                    case ControllerHand.Left:
+                        controller = GetControllerLeftHand(true);
+                        break;
+                    case ControllerHand.Right:
+                        controller = GetControllerRightHand(true);
+                        break;
+                }
 
-				if (controller != null)
-				{
-					Transform foundModel = controller.transform.Find("Model");
-					model = (foundModel != null ? foundModel.gameObject : null);
-				}
-			}
-			return model;
+                if (controller != null)
+                {
+                    Transform foundModel = controller.transform.Find("Model");
+                    model = (foundModel != null ? foundModel.gameObject : null);
+                }
+            }
+            return model;
         }
 
         /// <summary>
@@ -355,21 +374,21 @@ namespace VRTK
         {
             if (VRTK_ControllerReference.IsValid(controllerReference))
             {
-            /*    uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
-                GameObject controller = GetControllerByIndex(index);
-			
-                if (IsControllerLeftHand(controller))
-                {
-                    hapticsProceduralClipLeft.Reset();
-                    hapticsProceduralClipLeft.WriteSample((byte)(strength * byte.MaxValue));
-                    OVRHaptics.LeftChannel.Preempt(hapticsProceduralClipLeft);
-                }
-                else if (IsControllerRightHand(controller))
-                {
-                    hapticsProceduralClipRight.Reset();
-                    hapticsProceduralClipRight.WriteSample((byte)(strength * byte.MaxValue));
-                    OVRHaptics.RightChannel.Preempt(hapticsProceduralClipRight);
-                }*/
+                /*    uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
+                    GameObject controller = GetControllerByIndex(index);
+
+                    if (IsControllerLeftHand(controller))
+                    {
+                        hapticsProceduralClipLeft.Reset();
+                        hapticsProceduralClipLeft.WriteSample((byte)(strength * byte.MaxValue));
+                        OVRHaptics.LeftChannel.Preempt(hapticsProceduralClipLeft);
+                    }
+                    else if (IsControllerRightHand(controller))
+                    {
+                        hapticsProceduralClipRight.Reset();
+                        hapticsProceduralClipRight.WriteSample((byte)(strength * byte.MaxValue));
+                        OVRHaptics.RightChannel.Preempt(hapticsProceduralClipRight);
+                    }*/
             }
         }
 
@@ -382,7 +401,7 @@ namespace VRTK
         {
             if (VRTK_ControllerReference.IsValid(controllerReference))
             {
-				/*  uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
+                /*  uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
                 GameObject controller = GetControllerByIndex(index);
 
                 if (IsControllerLeftHand(controller))
@@ -471,36 +490,38 @@ namespace VRTK
             {
                 return Vector2.zero;
             }
-           // uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
+            // uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
             VRTK_TrackedController device = GetTrackedObject(controllerReference.actual);
             if (device != null)
             {
                 switch (buttonType)
                 {
-					// Touchpad value from -1.0f to 1.0f on X and Y (cf DaydreamReach.cs)
-				case ButtonTypes.Touchpad:
-					if (controllerReference.index == 0 && vrtrackerTagLeft) {
-						return vrtrackerTagLeft.trackpadXY;
-					} else if (controllerReference.index == 1 && vrtrackerTagRight)
-						return vrtrackerTagRight.trackpadXY;
-					else
-						return Vector2.zero;
-						break;
+                    // Touchpad value from -1.0f to 1.0f on X and Y (cf DaydreamReach.cs)
+                    case ButtonTypes.Touchpad:
+                        if (controllerReference.index == 0 && vrtrackerTagLeft)
+                        {
+                            return vrtrackerTagLeft.trackpadXY;
+                        }
+                        else if (controllerReference.index == 1 && vrtrackerTagRight)
+                            return vrtrackerTagRight.trackpadXY;
+                        else
+                            return Vector2.zero;
+                        break;
                 }
             }
             return Vector2.zero;
         }
 
-		/// <summary>
-		/// The GetButtonSenseAxis method retrieves the current sense axis value for the given button type on the given controller reference.
-		/// </summary>
-		/// <param name="buttonType">The type of button to check for the sense axis on.</param>
-		/// <param name="controllerReference">The reference to the controller to check the sense axis on.</param>
-		/// <returns>The current sense axis value.</returns>
-		public override float GetButtonSenseAxis(ButtonTypes buttonType, VRTK_ControllerReference controllerReference)
-		{
-			return 0f;
-		}
+        /// <summary>
+        /// The GetButtonSenseAxis method retrieves the current sense axis value for the given button type on the given controller reference.
+        /// </summary>
+        /// <param name="buttonType">The type of button to check for the sense axis on.</param>
+        /// <param name="controllerReference">The reference to the controller to check the sense axis on.</param>
+        /// <returns>The current sense axis value.</returns>
+        public override float GetButtonSenseAxis(ButtonTypes buttonType, VRTK_ControllerReference controllerReference)
+        {
+            return 0f;
+        }
 
         /// <summary>
         /// The GetButtonHairlineDelta method is used to get the difference between the current button press and the previous frame button press.
@@ -523,32 +544,32 @@ namespace VRTK
         /// <returns>Returns true if the given button is in the state of the given press type on the given controller reference.</returns>
         public override bool GetControllerButtonState(ButtonTypes buttonType, ButtonPressTypes pressType, VRTK_ControllerReference controllerReference)
         {
-			//TODO: add controls
+            //TODO: add controls
             if (!VRTK_ControllerReference.IsValid(controllerReference))
             {
                 return false;
             }
-           // uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
+            // uint index = VRTK_ControllerReference.GetRealIndex(controllerReference);
 
             switch (buttonType)
             {
                 case ButtonTypes.Trigger:
-					switch (pressType)
-					{
-					case ButtonPressTypes.Press:
-                        if(controllerReference.index == 0 && vrtrackerTagLeft)
-                        {
-                            return vrtrackerTagLeft.triggerPressed;
-                        }
-					        
-                        else if (controllerReference.index == 1 && vrtrackerTagRight)
-                            return vrtrackerTagRight.triggerPressed;
-                        break;
-                    case ButtonPressTypes.PressDown:
+                    switch (pressType)
+                    {
+                        case ButtonPressTypes.Press:
+                            if (controllerReference.index == 0 && vrtrackerTagLeft)
+                            {
+                                return vrtrackerTagLeft.triggerPressed;
+                            }
+
+                            else if (controllerReference.index == 1 && vrtrackerTagRight)
+                                return vrtrackerTagRight.triggerPressed;
+                            break;
+                        case ButtonPressTypes.PressDown:
                             if (controllerReference.index == 0 && vrtrackerTagLeft)
                             {
                                 if (vrtrackerTagLeft.triggerDown)
-                                { 
+                                {
                                     vrtrackerTagLeft.triggerDown = false;
                                     return true;
                                 }
@@ -565,8 +586,8 @@ namespace VRTK
                                 else
                                     return false;
                             }
-                        break;
-                    case ButtonPressTypes.PressUp:
+                            break;
+                        case ButtonPressTypes.PressUp:
                             if (controllerReference.index == 0 && vrtrackerTagLeft)
                             {
                                 if (vrtrackerTagLeft.triggerUp)
@@ -589,135 +610,193 @@ namespace VRTK
                             }
                             break;
                     }
-					break;
-                case ButtonTypes.TriggerHairline:
-                    
                     break;
-				case ButtonTypes.Grip:
-					
-					break;
+                case ButtonTypes.TriggerHairline:
+
+                    break;
+
+                case ButtonTypes.Grip:
+                    switch (pressType)
+                    {
+                        case ButtonPressTypes.Press:
+                            if (controllerReference.index == 0 && vrtrackerTagLeft)
+                            {
+                                return vrtrackerTagLeft.grabPressed;
+                            }
+
+                            else if (controllerReference.index == 1 && vrtrackerTagRight)
+                                return vrtrackerTagRight.grabPressed;
+                            break;
+                        case ButtonPressTypes.PressDown:
+                            if (controllerReference.index == 0 && vrtrackerTagLeft)
+                            {
+                                if (vrtrackerTagLeft.grabDown)
+                                {
+                                    vrtrackerTagLeft.grabDown = false;
+                                    return true;
+                                }
+                                else
+                                    return false;
+                            }
+                            else if (controllerReference.index == 1 && vrtrackerTagRight)
+                            {
+                                if (vrtrackerTagRight.grabDown)
+                                {
+                                    vrtrackerTagRight.grabDown = false;
+                                    return true;
+                                }
+                                else
+                                    return false;
+                            }
+                            break;
+                        case ButtonPressTypes.PressUp:
+                            if (controllerReference.index == 0 && vrtrackerTagLeft)
+                            {
+                                if (vrtrackerTagLeft.grabUp)
+                                {
+                                    vrtrackerTagLeft.grabUp = false;
+                                    return true;
+                                }
+                                else
+                                    return false;
+                            }
+                            else if (controllerReference.index == 1 && vrtrackerTagRight)
+                            {
+                                if (vrtrackerTagRight.grabUp)
+                                {
+                                    vrtrackerTagRight.grabUp = false;
+                                    return true;
+                                }
+                                else
+                                    return false;
+                            }
+                            break;
+                    }
+                    break;
+
+
                 case ButtonTypes.GripHairline:
-                    
+
                     break;
                 case ButtonTypes.Touchpad:
-					switch (pressType)
-					{
-					case ButtonPressTypes.Touch:
-						if(controllerReference.index == 0 && vrtrackerTagLeft)
-						{
-							return vrtrackerTagLeft.trackpadTouch;
-						}
+                    switch (pressType)
+                    {
+                        case ButtonPressTypes.Touch:
+                            if (controllerReference.index == 0 && vrtrackerTagLeft)
+                            {
+                                return vrtrackerTagLeft.trackpadTouch;
+                            }
 
-						else if (controllerReference.index == 1 && vrtrackerTagRight)
-							return vrtrackerTagRight.trackpadTouch;
-						break;
-					case ButtonPressTypes.TouchDown:
-						if (controllerReference.index == 0 && vrtrackerTagLeft)
-						{
-							if (vrtrackerTagLeft.trackpadDown)
-							{ 
-								vrtrackerTagLeft.trackpadDown = false;
-								return true;
-							}
-							else
-								return false;
-						}
-						else if (controllerReference.index == 1 && vrtrackerTagRight)
-						{
-							if (vrtrackerTagRight.trackpadDown)
-							{
-								vrtrackerTagRight.trackpadDown = false;
-								return true;
-							}
-							else
-								return false;
-						}
-						break;
-					case ButtonPressTypes.TouchUp:
-						if (controllerReference.index == 0 && vrtrackerTagLeft)
-						{
-							if (vrtrackerTagLeft.trackpadUp)
-							{
-								vrtrackerTagLeft.trackpadUp = false;
-								return true;
-							}
-							else
-								return false;
-						}
-						else if (controllerReference.index == 1 && vrtrackerTagRight)
-						{
-							if (vrtrackerTagRight.trackpadUp)
-							{
-								vrtrackerTagRight.trackpadUp = false;
-								return true;
-							}
-							else
-								return false;
-						}
-						break;
-					}
-					break;
+                            else if (controllerReference.index == 1 && vrtrackerTagRight)
+                                return vrtrackerTagRight.trackpadTouch;
+                            break;
+                        case ButtonPressTypes.TouchDown:
+                            if (controllerReference.index == 0 && vrtrackerTagLeft)
+                            {
+                                if (vrtrackerTagLeft.trackpadDown)
+                                {
+                                    vrtrackerTagLeft.trackpadDown = false;
+                                    return true;
+                                }
+                                else
+                                    return false;
+                            }
+                            else if (controllerReference.index == 1 && vrtrackerTagRight)
+                            {
+                                if (vrtrackerTagRight.trackpadDown)
+                                {
+                                    vrtrackerTagRight.trackpadDown = false;
+                                    return true;
+                                }
+                                else
+                                    return false;
+                            }
+                            break;
+                        case ButtonPressTypes.TouchUp:
+                            if (controllerReference.index == 0 && vrtrackerTagLeft)
+                            {
+                                if (vrtrackerTagLeft.trackpadUp)
+                                {
+                                    vrtrackerTagLeft.trackpadUp = false;
+                                    return true;
+                                }
+                                else
+                                    return false;
+                            }
+                            else if (controllerReference.index == 1 && vrtrackerTagRight)
+                            {
+                                if (vrtrackerTagRight.trackpadUp)
+                                {
+                                    vrtrackerTagRight.trackpadUp = false;
+                                    return true;
+                                }
+                                else
+                                    return false;
+                            }
+                            break;
+                    }
+                    break;
                 case ButtonTypes.ButtonOne:
                     switch (pressType)
                     {
-                    case ButtonPressTypes.Press:
-                        if (controllerReference.index == 0 && vrtrackerTagLeft)
-                            return vrtrackerTagLeft.buttonPressed;
-                        else if (controllerReference.index == 1 && vrtrackerTagRight)
-                            return vrtrackerTagRight.buttonPressed;
-                        break;
-                    case ButtonPressTypes.PressDown:
-                        if (controllerReference.index == 0 && vrtrackerTagLeft)
-                        {
-                            if (vrtrackerTagLeft.buttonDown)
-                            {
-                                vrtrackerTagLeft.buttonDown = false;
-                                return true;
-                            }
-                            else
-                                return false;
-                        }
-                        else if (controllerReference.index == 1 && vrtrackerTagRight)
-                        {
-                            if (vrtrackerTagRight.buttonDown)
-                            {
-                                vrtrackerTagRight.buttonDown = false;
-                                return true;
-                            }
-                            else
-                                return false;
-                        }
+                        case ButtonPressTypes.Press:
+                            if (controllerReference.index == 0 && vrtrackerTagLeft)
+                                return vrtrackerTagLeft.buttonPressed;
+                            else if (controllerReference.index == 1 && vrtrackerTagRight)
+                                return vrtrackerTagRight.buttonPressed;
                             break;
-                    case ButtonPressTypes.PressUp:
-                        if (controllerReference.index == 0 && vrtrackerTagLeft)
-                        {
-                            if (vrtrackerTagLeft.buttonUp)
+                        case ButtonPressTypes.PressDown:
+                            if (controllerReference.index == 0 && vrtrackerTagLeft)
                             {
-                                vrtrackerTagLeft.buttonUp = false;
-                                return true;
+                                if (vrtrackerTagLeft.buttonDown)
+                                {
+                                    vrtrackerTagLeft.buttonDown = false;
+                                    return true;
+                                }
+                                else
+                                    return false;
                             }
-                            else
-                                return false;
-                        }
-                        else if (controllerReference.index == 1 && vrtrackerTagRight)
-                        {
-                            if (vrtrackerTagRight.buttonUp)
+                            else if (controllerReference.index == 1 && vrtrackerTagRight)
                             {
-                                vrtrackerTagRight.buttonUp = false;
-                                return true;
+                                if (vrtrackerTagRight.buttonDown)
+                                {
+                                    vrtrackerTagRight.buttonDown = false;
+                                    return true;
+                                }
+                                else
+                                    return false;
                             }
-                            else
-                                return false;
-                        }
-                        break;
+                            break;
+                        case ButtonPressTypes.PressUp:
+                            if (controllerReference.index == 0 && vrtrackerTagLeft)
+                            {
+                                if (vrtrackerTagLeft.buttonUp)
+                                {
+                                    vrtrackerTagLeft.buttonUp = false;
+                                    return true;
+                                }
+                                else
+                                    return false;
+                            }
+                            else if (controllerReference.index == 1 && vrtrackerTagRight)
+                            {
+                                if (vrtrackerTagRight.buttonUp)
+                                {
+                                    vrtrackerTagRight.buttonUp = false;
+                                    return true;
+                                }
+                                else
+                                    return false;
+                            }
+                            break;
                     }
                     break;
                 case ButtonTypes.ButtonTwo:
-                    
+
                     break;
-				case ButtonTypes.StartMenu:
-					
-					break;
+                case ButtonTypes.StartMenu:
+
+                    break;
             }
             return false;
         }
@@ -733,22 +812,24 @@ namespace VRTK
             VRTK_SDKManager sdkManager = VRTK_SDKManager.instance;
             if (sdkManager != null)
             {
-				if (cachedLeftController == null && sdkManager.loadedSetup.actualLeftController) 
+                if (cachedLeftController == null && sdkManager.loadedSetup.actualLeftController)
                 {
-					cachedLeftController = sdkManager.loadedSetup.actualLeftController.GetComponent<VRTK_TrackedController> ();
-					if (cachedLeftController != null) {
-						cachedLeftController.index = 0;
+                    cachedLeftController = sdkManager.loadedSetup.actualLeftController.GetComponent<VRTK_TrackedController>();
+                    if (cachedLeftController != null)
+                    {
+                        cachedLeftController.index = 0;
                         cachedLeftVelocityEstimator = (cachedLeftController.GetComponent<VRTK_VelocityEstimator>() != null ? cachedLeftController.GetComponent<VRTK_VelocityEstimator>() : cachedLeftController.gameObject.AddComponent<VRTK_VelocityEstimator>());
-        
-					}
-				} 
+
+                    }
+                }
                 if (cachedRightController == null && sdkManager.loadedSetup.actualRightController)
                 {
-					cachedRightController = sdkManager.loadedSetup.actualRightController.GetComponent<VRTK_TrackedController>();
-					if (cachedRightController != null){
-						cachedRightController.index = 1;
+                    cachedRightController = sdkManager.loadedSetup.actualRightController.GetComponent<VRTK_TrackedController>();
+                    if (cachedRightController != null)
+                    {
+                        cachedRightController.index = 1;
                         cachedRightVelocityEstimator = (cachedRightController.GetComponent<VRTK_VelocityEstimator>() != null ? cachedRightController.GetComponent<VRTK_VelocityEstimator>() : cachedRightController.gameObject.AddComponent<VRTK_VelocityEstimator>());
-					}
+                    }
                 }
             }
         }
@@ -811,11 +892,11 @@ namespace VRTK
         {
             if (cachedBoundariesSDK == null)
             {
-				cachedBoundariesSDK = (VRTK_SDKManager.instance ? VRTK_SDKManager.instance.loadedSetup.boundariesSDK : CreateInstance<SDK_VRTrackerBoundaries>()) as SDK_VRTrackerBoundaries;
+                cachedBoundariesSDK = (VRTK_SDKManager.instance ? VRTK_SDKManager.instance.loadedSetup.boundariesSDK : CreateInstance<SDK_VRTrackerBoundaries>()) as SDK_VRTrackerBoundaries;
             }
 
             return cachedBoundariesSDK;
         }
-        #endif
+#endif
     }
 }
