@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1692,6 +1692,17 @@ PrefabInstance:
         type: 3}
       propertyPath: gameScene.sceneName
       value: VRTK/Assets/VRTK/Examples/[001 - Interactions] ControllerEvents
+      objectReference: {fileID: 0}
+    - target: {fileID: 114818234807736472, guid: 647373ac69be549baa991c90e809299b,
+        type: 3}
+      propertyPath: pairingScene.sceneAsset
+      value: 
+      objectReference: {fileID: 102900000, guid: fa5229cb1aa1c374b8923ca1e249f453,
+        type: 3}
+    - target: {fileID: 114818234807736472, guid: 647373ac69be549baa991c90e809299b,
+        type: 3}
+      propertyPath: pairingScene.sceneName
+      value: VRTK/Examples/ExampleResources/SceneResources/VRTK_Pairing
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 647373ac69be549baa991c90e809299b, type: 3}

@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/VRTK/Examples/ExampleResources/SceneResources/VRTK_Pairing.unity
+    guid: fa5229cb1aa1c374b8923ca1e249f453
+  - enabled: 1
     path: Assets/VRTK/Examples/[001 - Interactions] ControllerEvents.unity
     guid: 7ef04a272395bf04f8fdc6ec410f464e
   - enabled: 1
@@ -26,3 +29,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/VRTK/Examples/[007 - Interactions] InteractionHelpers.unity
     guid: ea2236e506afcac41a7b82e176d839d1
+  m_configObjects: {}

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1047,6 +1047,28 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 816213629612995289, guid: eb6748575a8fce346b19dff6cb1471ec,
+        type: 3}
+      propertyPath: gameScene.sceneAsset
+      value: 
+      objectReference: {fileID: 102900000, guid: b096ca0211dc5e741b5975310caead66,
+        type: 3}
+    - target: {fileID: 816213629612995289, guid: eb6748575a8fce346b19dff6cb1471ec,
+        type: 3}
+      propertyPath: gameScene.sceneName
+      value: VRTK/Examples/[003 - Pointers] BezierPointer
+      objectReference: {fileID: 0}
+    - target: {fileID: 816213629612995289, guid: eb6748575a8fce346b19dff6cb1471ec,
+        type: 3}
+      propertyPath: pairingScene.sceneAsset
+      value: 
+      objectReference: {fileID: 102900000, guid: fa5229cb1aa1c374b8923ca1e249f453,
+        type: 3}
+    - target: {fileID: 816213629612995289, guid: eb6748575a8fce346b19dff6cb1471ec,
+        type: 3}
+      propertyPath: pairingScene.sceneName
+      value: VRTK/Examples/ExampleResources/SceneResources/VRTK_Pairing
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb6748575a8fce346b19dff6cb1471ec, type: 3}
