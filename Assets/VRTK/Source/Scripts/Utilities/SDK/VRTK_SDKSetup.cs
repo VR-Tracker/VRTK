@@ -214,6 +214,7 @@ namespace VRTK
         /// <returns>The currently selected controller SDK.</returns>
         public SDK_BaseController controllerSDK
         {
+            
             get
             {
                 if (cachedControllerSDK == null)
@@ -221,7 +222,6 @@ namespace VRTK
                     HandleSDKGetter<SDK_BaseController>("Controller", controllerSDKInfo, VRTK_SDKManager.InstalledControllerSDKInfos);
                     cachedControllerSDK = (SDK_BaseController)ScriptableObject.CreateInstance(controllerSDKInfo.type);
                 }
-
                 return cachedControllerSDK;
             }
         }

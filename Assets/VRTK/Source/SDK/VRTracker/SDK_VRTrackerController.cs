@@ -114,7 +114,11 @@ namespace VRTK
         /// <returns>A path to the resource that contains the collider GameObject.</returns>
         public override string GetControllerDefaultColliderPath(ControllerHand hand)
         {
-            return "ControllerColliders/VRTracker_" + hand.ToString();
+            //Debug.Log(hand.ToString());
+            //return "ControllerColliders/VRTracker_" + hand.ToString();
+
+            return "ControllerColliders/VRTracker";
+
 
             //TODO: Use this to use Oculus or Steam controllers
             /*

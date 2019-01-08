@@ -487,6 +487,8 @@ namespace VRTK
         {
             SDK_BaseController.ControllerHand controllerHand = VRTK_DeviceFinder.GetControllerHand(gameObject);
             string colliderPath = VRTK_SDK_Bridge.GetControllerDefaultColliderPath(controllerHand);
+
+            Debug.Log("collider path " + colliderPath);
             if (colliderPath == "")
             {
                 return;
@@ -534,7 +536,7 @@ namespace VRTK
             touchRigidBody.isKinematic = true;
             touchRigidBody.useGravity = false;
             touchRigidBody.constraints = RigidbodyConstraints.FreezeAll;
-            touchRigidBody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            touchRigidBody.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
         }
 
         protected virtual void EmitControllerRigidbodyEvent(bool state)

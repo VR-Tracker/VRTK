@@ -82,11 +82,13 @@
 
         public static bool IsControllerLeftHand(GameObject controller)
         {
+            //Debug.Log("controller left hand " + GetControllerSDK().IsControllerLeftHand(controller));
             return GetControllerSDK().IsControllerLeftHand(controller);
         }
 
         public static bool IsControllerRightHand(GameObject controller)
         {
+            //Debug.Log("controller right hand " + GetControllerSDK().IsControllerRightHand(controller));
             return GetControllerSDK().IsControllerRightHand(controller);
         }
 
@@ -319,10 +321,12 @@
         {
             if (VRTK_SDKManager.instance != null && VRTK_SDKManager.instance.loadedSetup != null)
             {
+                //Debug.Log("get controller sdk");
                 return VRTK_SDKManager.instance.loadedSetup.controllerSDK;
             }
             if (controllerSDK == null)
             {
+                //Debug.Log("create controller sdk");
                 controllerSDK = ScriptableObject.CreateInstance<SDK_FallbackController>();
             }
             return controllerSDK;

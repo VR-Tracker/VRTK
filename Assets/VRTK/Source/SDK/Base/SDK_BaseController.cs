@@ -555,6 +555,10 @@ namespace VRTK
             VRTK_SDKManager sdkManager = VRTK_SDKManager.instance;
             if (sdkManager != null && sdkManager.loadedSetup != null && controller != null)
             {
+                //Debug.Log(actual);
+                //Debug.Log("CheckControllerLeftHand " + controller + " actualLeftController " + sdkManager.loadedSetup.actualLeftController + " scriptAliasLeftController " + sdkManager.scriptAliasLeftController);
+                //Debug.Log("check left ");
+                //Debug.Log(actual ? controller == sdkManager.loadedSetup.actualLeftController : controller == sdkManager.scriptAliasLeftController);
                 return (actual ? controller == sdkManager.loadedSetup.actualLeftController : controller == sdkManager.scriptAliasLeftController);
             }
             return false;
@@ -565,6 +569,8 @@ namespace VRTK
             VRTK_SDKManager sdkManager = VRTK_SDKManager.instance;
             if (sdkManager != null && sdkManager.loadedSetup != null && controller != null)
             {
+                //Debug.Log("check right ");
+                //Debug.Log(actual ? controller == sdkManager.loadedSetup.actualRightController : controller == sdkManager.scriptAliasRightController);
                 return (actual ? controller == sdkManager.loadedSetup.actualRightController : controller == sdkManager.scriptAliasRightController);
             }
             return false;
